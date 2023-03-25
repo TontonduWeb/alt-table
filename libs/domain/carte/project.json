@@ -1,0 +1,26 @@
+{
+  "name": "domain-carte",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domain/carte/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/domain/carte",
+        "main": "libs/domain/carte/src/index.ts",
+        "tsConfig": "libs/domain/carte/tsconfig.lib.json",
+        "assets": ["libs/domain/carte/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/domain/carte/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}
