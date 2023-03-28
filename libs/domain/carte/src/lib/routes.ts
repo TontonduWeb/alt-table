@@ -11,4 +11,21 @@ export const definePlatRoutes = (app: Application) => {
     const plat = await controller.create(req.body);
     res.send(plat);
   });
+  app.get('/api/plat/:nom', async (req, res) => {
+    const plat = await controller.findOne(req.params.nom);
+    res.send(plat);
+  });
+  app.post('/api/plat/:nom', async (req, res) => {
+    const plat = await controller.update(req.params.nom, req.body.quantite);
+    res.send(plat);
+  });
+  app.post('/api/client', async (req, res) => {
+    const plat = await controller.updateClient(req.body);
+    res.send(plat);
+  });
+  app.get('/api/carte', async (req, res) => {
+    const plats = await controller.findAll();
+    const carte = plats.filter((plat) => plat.quantite > 0);
+    res.send(carte);
+  });
 };

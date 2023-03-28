@@ -1,5 +1,4 @@
 import { definePlatRoutes } from '@alt-table/domain/carte';
-import bodyParser from 'body-parser';
 import express from 'express';
 
 const host = process.env.HOST ?? 'localhost';

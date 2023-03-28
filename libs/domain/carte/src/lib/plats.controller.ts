@@ -1,4 +1,4 @@
-import { Plat } from './plats';
+import { ErrorMessage, Plat, P } from './plats';
 import { PlatService } from './plats.service';
 
 export class PlatController {
@@ -9,7 +9,17 @@ export class PlatController {
   async findAll(): Promise<Plat[]> {
     return await this.platService.findAll();
   }
-  async create(plat: Plat): Promise<Plat> {
+  async create(plat: P): Promise<P | ErrorMessage> {
     return await this.platService.create(plat);
+  }
+  async findOne(nom: string): Promise<Plat | ErrorMessage> {
+    return await this.platService.findOne(nom);
+  }
+  async update(nom: string, quantite: number): Promise<Plat | ErrorMessage> {
+    return await this.platService.update(nom, quantite);
+  }
+
+  async updateClient(plats: Plat[]): Promise<Plat[] | ErrorMessage> {
+    return await this.platService.updateClient(plats);
   }
 }
