@@ -1,4 +1,4 @@
-import { ErrorMessage, Plat, P } from './plats';
+import { ErrorMessage, Plat } from './plats';
 import { PlatService } from './plats.service';
 
 export class PlatController {
@@ -9,7 +9,7 @@ export class PlatController {
   async findAll(): Promise<Plat[]> {
     return await this.platService.findAll();
   }
-  async create(plat: P): Promise<P | ErrorMessage> {
+  async create(plat: Plat): Promise<Plat | ErrorMessage> {
     return await this.platService.create(plat);
   }
   async findOne(nom: string): Promise<Plat | ErrorMessage> {

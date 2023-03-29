@@ -1,24 +1,16 @@
-export interface P {
-  nom: string;
-  description: string;
-  type: 'Apéritif' | 'Entree' | 'Plat principal' | 'Dessert' | 'Boisson';
-  prix: number;
-  quantite: number;
-}
-
 export class Plat {
   nom: string;
   description: string;
-  type: 'Apéritif' | 'Entree' | 'Plat principal' | 'Dessert' | 'Boisson';
+  type: Type;
   prix: number;
-  quantite: number;
+  quantite?: number;
 
   constructor(
     nom: string,
     description: string,
-    type: 'Apéritif' | 'Entree' | 'Plat principal' | 'Dessert' | 'Boisson',
+    type: Type,
     prix: number,
-    quantite: number
+    quantite?: number
   ) {
     this.nom = nom;
     this.description = description;
@@ -26,6 +18,14 @@ export class Plat {
     this.prix = prix;
     this.quantite = quantite;
   }
+}
+
+export enum Type {
+  Aperitif = 'Apéritif',
+  Entree = 'Entrée',
+  Plat = 'Plat principal',
+  Dessert = 'Dessert',
+  Boisson = 'Boisson',
 }
 
 export interface ErrorMessage {

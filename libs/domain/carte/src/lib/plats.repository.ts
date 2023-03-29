@@ -1,4 +1,4 @@
-import { ErrorMessage, Plat, P } from './plats';
+import { ErrorMessage, Plat } from './plats';
 
 export class PlatRepository {
   private plats: Plat[] = [];
@@ -7,7 +7,7 @@ export class PlatRepository {
     return this.plats;
   }
 
-  public create(plat: P): Plat | ErrorMessage {
+  public create(plat: Plat): Plat | ErrorMessage {
     if (this.plats.find((p) => p.nom == plat.nom)) {
       return {
         message: 'Plat deja existant',
@@ -48,16 +48,16 @@ export class PlatRepository {
     if (platsConnus) {
       platsConnus.forEach((platConnu) => {
         const plat = this.plats.find((plat) => platConnu.nom == plat.nom);
-        if (plat!.quantite < platConnu.quantite) {
-          console.log('Quantité insuffisante');
-          return {
-            message: `Plat ${platConnu.nom} en quantite insuffisante`,
-          };
+        if (plat?.quantite && platConnu.quantite) {
+          if (plat.quantite < platConnu.quantite) {
+            return {
+              message: `Plat ${platConnu.nom} en quantite insuffisante`,
+            };
+          }
+          if (plat && plat.quantite > platConnu.quantite) {
+            plat.quantite = plat.quantite - platConnu.quantite;
+          }
         }
-        if (plat && plat.quantite > platConnu.quantite) {
-          plat.quantite = plat.quantite - platConnu.quantite;
-        }
-        console.log('Plat mis a jour');
         return plat;
       });
     }
