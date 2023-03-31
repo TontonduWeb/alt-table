@@ -21,7 +21,8 @@ export const definePlatRoutes = (app: Application) => {
     res.send(plat);
   });
   app.post('/api/client', async (req, res) => {
-    const plat = await controller.updateClient(req.body);
+    const plat = await controller.updateClient(req.body as Plat[]);
+
     res.send(plat);
   });
   app.get('/api/carte', async (req, res) => {

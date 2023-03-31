@@ -38,6 +38,7 @@ export class PlatRepository {
     platToUpdate.quantite = quantite;
     return platToUpdate;
   }
+
   public updateClient(platsReq: Plat[]): Plat[] | ErrorMessage {
     const platsInconnus = platsReq.filter(
       (platReq) => !this.plats.find((plat) => platReq.nom == plat.nom)
@@ -46,28 +47,44 @@ export class PlatRepository {
       this.plats.find((plat) => platReq.nom == plat.nom)
     );
     if (platsConnus) {
-      platsConnus.forEach((platConnu) => {
-        const plat = this.plats.find((plat) => platConnu.nom == plat.nom);
-        if (plat?.quantite && platConnu.quantite) {
-          if (plat.quantite < platConnu.quantite) {
-            return {
-              message: `Plat ${platConnu.nom} en quantite insuffisante`,
-            };
-          }
-          if (plat && plat.quantite > platConnu.quantite) {
-            plat.quantite = plat.quantite - platConnu.quantite;
-          }
+      for (const platConnu of platsConnus) {
+        const platEnMemoire = this.plats.find((p) => platConnu.nom == p.nom);
+
+        if (
+          platConnu.quantite &&
+          platEnMemoire?.quantite != undefined &&
+          platEnMemoire.quantite >= platConnu.quantite
+        ) {
+          platEnMemoire.quantite -= platConnu.quantite;
+          return {
+            message: `Commande effectuee avec succes : ${platsConnus.map(
+              (platEnMemoire) =>
+                `${platEnMemoire.nom} : ${platEnMemoire.quantite}`
+            )}`,
+          };
         }
-        return plat;
-      });
-    }
-    if (platsInconnus.length > 0) {
+        if (
+          platConnu.quantite &&
+          platEnMemoire?.quantite != undefined &&
+          platEnMemoire.quantite < platConnu.quantite
+        )
+          return {
+            message: `Plat ${platsConnus.map(
+              (platConnu) => platConnu.nom
+            )} en rupture de stock)`,
+          };
+      }
+    } else if (platsInconnus.length > 0) {
       return {
         message: `Plats inconnus : ${platsInconnus
-          .map((plat) => plat.nom)
+          .map((platEnMemoire) => platEnMemoire.nom)
           .join(', ')}`,
       };
     }
-    return this.plats;
+    return {
+      message: `Commande effectuee avec succes : ${platsConnus.map(
+        (platEnMemoire) => `${platEnMemoire.nom} : ${platEnMemoire.quantite}`
+      )}`,
+    };
   }
 }

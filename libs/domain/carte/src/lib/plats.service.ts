@@ -61,6 +61,9 @@ export class PlatService {
     return this.platRepository.update(nom, quantite);
   }
   async updateClient(plats: Plat[]): Promise<Plat[] | ErrorMessage> {
+    if (!Array.isArray(plats)) {
+      return { message: "Le body n'est pas un tableau" };
+    }
     return this.platRepository.updateClient(plats);
   }
 }
